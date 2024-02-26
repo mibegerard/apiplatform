@@ -39,8 +39,6 @@ class Book
     #[ORM\OneToMany(targetEntity: Review::class, mappedBy: 'book', cascade: ['persist', 'remove'])]
     public iterable $reviews;
 
-
-
     public function __construct()
     {
         $this->reviews = new ArrayCollection();

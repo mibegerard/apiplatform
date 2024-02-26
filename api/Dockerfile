@@ -21,22 +21,22 @@ WORKDIR /app
 # persistent / runtime deps
 # hadolint ignore=DL3018
 RUN apk add --no-cache \
-		acl \
-		file \
-		gettext \
-		git \
-	;
+    acl \
+    file \
+    gettext \
+    git \
+    ;
 
 # https://getcomposer.org/doc/03-cli.md#composer-allow-superuser
 ENV COMPOSER_ALLOW_SUPERUSER=1
 
 RUN set -eux; \
     install-php-extensions \
-		@composer \
-		apcu \
-		intl \
-		opcache \
-		zip \
+        @composer \
+        apcu \
+        intl \
+        opcache \
+        zip \
     ;
 
 ###> recipes ###
@@ -45,6 +45,10 @@ RUN set -eux; \
     install-php-extensions pdo_pgsql
 ###< doctrine/doctrine-bundle ###
 ###< recipes ###
+
+# Install Node.js and npm
+RUN set -eux; \
+    apk add --no-cache nodejs npm
 
 COPY --link frankenphp/conf.d/app.ini $PHP_INI_DIR/conf.d/
 COPY --link --chmod=755 frankenphp/docker-entrypoint.sh /usr/local/bin/docker-entrypoint
@@ -64,9 +68,13 @@ VOLUME /app/var/
 RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 
 RUN set -eux; \
-	install-php-extensions \
-    	xdebug \
+    install-php-extensions \
+        xdebug \
     ;
+
+# Install Node.js and npm
+RUN set -eux; \
+    apk add --no-cache nodejs npm
 
 COPY --link frankenphp/conf.d/app.dev.ini $PHP_INI_DIR/conf.d/
 
@@ -86,15 +94,15 @@ COPY --link frankenphp/worker.Caddyfile /etc/caddy/worker.Caddyfile
 # prevent the reinstallation of vendors at every changes in the source code
 COPY --link composer.* symfony.* ./
 RUN set -eux; \
-	composer install --no-cache --prefer-dist --no-dev --no-autoloader --no-scripts --no-progress
+    composer install --no-cache --prefer-dist --no-dev --no-autoloader --no-scripts --no-progress
 
 # copy sources
 COPY --link . ./
 RUN rm -Rf frankenphp/
 
 RUN set -eux; \
-	mkdir -p var/cache var/log; \
-	composer dump-autoload --classmap-authoritative --no-dev; \
-	composer dump-env prod; \
-	composer run-script --no-dev post-install-cmd; \
-	chmod +x bin/console; sync;
+    mkdir -p var/cache var/log; \
+    composer dump-autoload --classmap-authoritative --no-dev; \
+    composer dump-env prod; \
+    composer run-script --no-dev post-install-cmd; \
+    chmod +x bin/console; sync;

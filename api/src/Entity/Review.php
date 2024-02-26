@@ -42,14 +42,27 @@ class Review
     #[ORM\Column]
     public ?\DateTimeImmutable $publicationDate = null;
 
-    /** 
+     /** 
      * The book this review is about. 
      */
     #[ORM\ManyToOne(inversedBy: 'reviews')]
+    #[ORM\JoinColumn(nullable: false)]
     public ?Book $book = null;
 
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getBook(): ?Book
+    {
+        return $this->book;
+    }
+
+    public function setBook(?Book $book): static
+    {
+        $this->book = $book;
+
+        return $this;
     }
 }
