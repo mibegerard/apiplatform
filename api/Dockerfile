@@ -1,4 +1,4 @@
-#syntax=docker/dockerfile:1.4
+# syntax=docker/dockerfile:1.4
 
 # Adapted from https://github.com/dunglas/symfony-docker
 
@@ -48,7 +48,7 @@ RUN set -eux; \
 
 # Install Node.js and npm
 RUN set -eux; \
-    apk add --no-cache nodejs npm
+    apk add --no-cache nodejs=14.18.0-r0 npm=14.18.0-r0
 
 COPY --link frankenphp/conf.d/app.ini $PHP_INI_DIR/conf.d/
 COPY --link --chmod=755 frankenphp/docker-entrypoint.sh /usr/local/bin/docker-entrypoint
@@ -74,7 +74,7 @@ RUN set -eux; \
 
 # Install Node.js and npm
 RUN set -eux; \
-    apk add --no-cache nodejs npm
+    apk add --no-cache nodejs=14.18.0-r0 npm=14.18.0-r0
 
 COPY --link frankenphp/conf.d/app.dev.ini $PHP_INI_DIR/conf.d/
 
