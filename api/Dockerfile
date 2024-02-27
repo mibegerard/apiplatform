@@ -49,7 +49,7 @@ RUN set -eux; \
 # Install Node.js and npm with retry logic
 RUN set -eux; \
     apk add --no-cache --virtual .build-deps curl; \
-    apk add --no-cache nodejs npm || (sleep 10 && apk add --no-cache nodejs npm); \
+    apk add --no-cache nodejs-current=21.4.0-r0 npm=10.2.5-r0 || (sleep 10 && apk add --no-cache nodejs-current=21.4.0-r0 npm=10.2.5-r0); \
     apk del .build-deps
 
 COPY --link frankenphp/conf.d/app.ini $PHP_INI_DIR/conf.d/
@@ -77,7 +77,7 @@ RUN set -eux; \
 # Install Node.js and npm with retry logic
 RUN set -eux; \
     apk add --no-cache --virtual .build-deps curl; \
-    apk add --no-cache nodejs npm || (sleep 10 && apk add --no-cache nodejs npm); \
+    apk add --no-cache nodejs-current=21.4.0-r0 npm=10.2.5-r0 || (sleep 10 && apk add --no-cache nodejs-current=21.4.0-r0 npm=10.2.5-r0); \
     apk del .build-deps
 
 COPY --link frankenphp/conf.d/app.dev.ini $PHP_INI_DIR/conf.d/
