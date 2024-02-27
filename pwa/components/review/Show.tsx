@@ -76,13 +76,16 @@ export const Show: FunctionComponent<Props> = ({ review, text }) => {
             <th scope="row">book</th>
             <td>
               <ReferenceLinks
-                items={review["book"].map((ref: any) => ({
-                  href: getItemPath(ref, "/books/[id]"),
-                  name: ref,
-                }))}
+                items={Array.isArray(review["book"]) ? 
+                  review["book"].map((ref: any) => ({
+                    href: getItemPath(ref, "/books/[id]"),
+                    name: ref,
+                  })) : []
+                }
               />
             </td>
           </tr>
+
         </tbody>
       </table>
       {error && (

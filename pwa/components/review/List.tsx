@@ -55,12 +55,14 @@ export const List: FunctionComponent<Props> = ({ reviews }) => (
                   <td>{review["author"]}</td>
                   <td>{review["publicationDate"]?.toLocaleString()}</td>
                   <td>
-                    <ReferenceLinks
-                      items={review["book"].map((ref: any) => ({
+                  <ReferenceLinks
+                    items={Array.isArray(review["book"]) ? 
+                      review["book"].map((ref: any) => ({
                         href: getItemPath(ref, "/books/[id]"),
                         name: ref,
-                      }))}
-                    />
+                      })) : []
+                    }
+                  />
                   </td>
                   <td className="w-8">
                     <Link

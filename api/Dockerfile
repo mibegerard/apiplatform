@@ -46,9 +46,11 @@ RUN set -eux; \
 ###< doctrine/doctrine-bundle ###
 ###< recipes ###
 
-# Install Node.js and npm
+# Install Node.js and npm with retry logic
 RUN set -eux; \
-    apk add --no-cache nodejs=14.18.0-r0 npm=14.18.0-r0
+    apk add --no-cache --virtual .build-deps curl; \
+    apk add --no-cache nodejs npm || (sleep 10 && apk add --no-cache nodejs npm); \
+    apk del .build-deps
 
 COPY --link frankenphp/conf.d/app.ini $PHP_INI_DIR/conf.d/
 COPY --link --chmod=755 frankenphp/docker-entrypoint.sh /usr/local/bin/docker-entrypoint
@@ -72,9 +74,11 @@ RUN set -eux; \
         xdebug \
     ;
 
-# Install Node.js and npm
+# Install Node.js and npm with retry logic
 RUN set -eux; \
-    apk add --no-cache nodejs=14.18.0-r0 npm=14.18.0-r0
+    apk add --no-cache --virtual .build-deps curl; \
+    apk add --no-cache nodejs npm || (sleep 10 && apk add --no-cache nodejs npm); \
+    apk del .build-deps
 
 COPY --link frankenphp/conf.d/app.dev.ini $PHP_INI_DIR/conf.d/
 

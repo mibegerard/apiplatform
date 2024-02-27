@@ -244,7 +244,16 @@ export const Form: FunctionComponent<Props> = ({ review }) => {
                     {values.book && values.book.length > 0 ? (
                       values.book.map((item: any, index: number) => (
                         <div key={index}>
-                          <Field name={`book.${index}`} />
+                          <Field
+                            name={`book.${index}`}
+                            placeholder="/books/{book(id)}"
+                            className={`mt-1 block w-full ${
+                              errors.book && errors.book[index] && touched.book && touched.book[index] ? "border-red-500" : ""
+                            }`}
+                            aria-invalid={
+                              errors.book && errors.book[index] && touched.book && touched.book[index] ? "true" : undefined
+                            }
+                          />
                           <button
                             type="button"
                             onClick={() => arrayHelpers.remove(index)}
@@ -262,7 +271,7 @@ export const Form: FunctionComponent<Props> = ({ review }) => {
                     ) : (
                       <button
                         type="button"
-                        onClick={() => arrayHelpers.push("")}
+                        onClick={() => arrayHelpers.push("/books/{book(id)}")}
                       >
                         Add
                       </button>
