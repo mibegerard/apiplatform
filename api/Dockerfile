@@ -83,5 +83,5 @@ RUN set -eux; \
 
 # Install Node.js and npm (Production image)
 RUN set -eux; \
-    apk add --no-cache nodejs-current=21.4.0-r0 npm=10.2.5-r0 || (sleep 10 && apk add --no-cache nodejs-current=21.4.0-r0 npm=10.2.5-r0)
+    apk add --no-cache "nodejs-current=21.4.0-r0" "npm=10.2.5-r0" || (sleep 10 && apk add --no-cache "nodejs-current=21.4.0-r0" "npm=10.2.5-r0")
 
